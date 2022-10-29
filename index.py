@@ -12,16 +12,22 @@ class ListRequestHandler(tw.RequestHandler):
         self.render("index.html")
 
 class QueryRequestHandler(tw.RequestHandler):
+    # http://127.0.0.1:6969/iseven?num=5 returns '5 is odd'
+    # http://127.0.0.1:6969/iseven?num=4 returns '4 is even'
     def get(self):
         number = self.get_argument("num")
-        self.write(f"{number} is {'odd' if number & 1 else 'even'}.") if number.isdigit() else self.write(f"{number} is not a valid integer.")
+        if number.isdigit():
+            number = int(number)
+            self.write(f"{number} is {'odd' if number&1 else 'even'}.")
+        else: 
+            self.write(f"{number} is not a valid integer.")
 
 
 if __name__ == '__main__':
     app =  tw.Application([
         (r"/", BasicRequestHandler),
         (r"/animals", ListRequestHandler),
-        (r"/isEven", QueryRequestHandler)
+        (r"/iseven", QueryRequestHandler)
     ])
 
 
