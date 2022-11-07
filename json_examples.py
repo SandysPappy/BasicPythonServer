@@ -11,9 +11,15 @@ class listRequestHandler(tw.RequestHandler):
 
         # json.dumps() function will convert a subset of Python objects into a json string. Not all objects are convertible and you may need
         # to create a dictionary of data you wish to expose before serializing to JSON.
-        self.write(json.dumps(fruits)) 
+        self.write(json.dumps(fruits))
 
-
+    def post(self):
+        fruit = self.get_argument("fruit")
+        fh = open("list.txt", "a") # a is append (really so database connection here but whatever)
+        fh.write(f"{fruit}\n")
+        fh.close()
+        self.write(json.dumps({"message" : "Fruit added successfully."}))
+        
 if __name__ == "__main__":
     app = tw.Application([
         (r"/list", listRequestHandler)
