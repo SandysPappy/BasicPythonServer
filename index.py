@@ -4,7 +4,7 @@ import asyncio # introduced in python 3.10
 
 class BasicRequestHandler(tw.RequestHandler):
     def get(self):
-        self.write(f'Call Number: This is printed from the inhereted tornado web\'s request handler when the get request is called on port. Yayyy!')
+        self.write(f'This is printed from the inhereted tornado web\'s request handler when the get request is called on port. Yayyy!')
         print(f'get command was executed')
 
 class ListRequestHandler(tw.RequestHandler):
@@ -22,12 +22,22 @@ class QueryRequestHandler(tw.RequestHandler):
         else: 
             self.write(f"{number} is not a valid integer.")
 
+class ResourceParamRequestHandler(tw.RequestHandler):
+    # the regualr expression becomes the input
+    #
+    # http://127.0.0.1:6969/students/weeee/5464
+    # Welcome weeee! The course you are viewing is 5464.
+    def get(self, studentName, courseID):
+        self.write(f"Welcome {studentName}! The course you are viewing is {courseID}.")
+        
+
 
 if __name__ == '__main__':
     app =  tw.Application([
         (r"/", BasicRequestHandler),
         (r"/animals", ListRequestHandler),
-        (r"/iseven", QueryRequestHandler)
+        (r"/iseven", QueryRequestHandler),
+        (r"/students/([a-z]+)/([0-9]+)", ResourceParamRequestHandler)
     ])
 
 
