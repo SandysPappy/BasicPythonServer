@@ -24,9 +24,10 @@ class QueryRequestHandler(tw.RequestHandler):
 
 class ResourceParamRequestHandler(tw.RequestHandler):
     # the regualr expression becomes the input
+    # https://regex101.com/
     #
     # http://127.0.0.1:6969/students/weeee/5464
-    # Welcome weeee! The course you are viewing is 5464.
+    # Welcome Weeee! The course you are viewing is 5464.
     def get(self, studentName, courseID):
         self.write(f"Welcome {studentName}! The course you are viewing is {courseID}.")
         
@@ -37,7 +38,7 @@ if __name__ == '__main__':
         (r"/", BasicRequestHandler),
         (r"/animals", ListRequestHandler),
         (r"/iseven", QueryRequestHandler),
-        (r"/students/([a-z]+)/([0-9]+)", ResourceParamRequestHandler)
+        (r"/students/([a-zA-Z]+)/([0-9]+)", ResourceParamRequestHandler)
     ])
 
 
